@@ -65,6 +65,10 @@ public struct SwitchRow: Row, Equatable, IconEnabled {
     
     return cell
   }
+    
+    public var shouldHighlight: Bool {
+        return false
+    }
   
   ///
   public init(title: String, switchValue: Bool, icon: Icon? = nil, action: ((Row) -> Void)?) {

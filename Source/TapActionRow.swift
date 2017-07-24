@@ -46,12 +46,16 @@ public struct TapActionRow: Row, Equatable {
     var cell = defaultCell(forTableView: tableView)
     
     cell = cell ?? TapActionCell(style: .default, reuseIdentifier: cellReuseIdentifier)
-
     
     postCellSetup(forCell: cell)
     
     return cell
   }
+  
+    /// Indicates that row should highlight.
+    public var shouldHighlight: Bool {
+        return action != nil
+    }
   
   ///
   public init(title: String, action: ((Row) -> Void)?) {

@@ -111,7 +111,6 @@ open class QuickTableViewController: UIViewController,
       if switchControl?.actions(forTarget: self, forControlEvent: .valueChanged) == nil {
         switchControl?.addTarget(self, action: .didToggleSwitch, for: UIControlEvents.valueChanged)
       }
-      
     }
     
     return cell ?? tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(UITableViewCell.self), for: indexPath)
@@ -125,21 +124,17 @@ open class QuickTableViewController: UIViewController,
 
   open func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
     let row = tableContents[indexPath.section].rows[indexPath.row]
-    return (row is TapActionRow || row is NavigationRow) && (row.action != nil)
+    return (row.shouldHighlight)
   }
 
   open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let row = tableContents[indexPath.section].rows[indexPath.row]
-
-    switch (row, row.action) {
-    case let (row as NavigationRow, navigation):
-      navigation?(row)
-    case let (row as TapActionRow, tap):
-      tap?(row)
-      fallthrough
-    default:
+    row.action?(row)
+    
+    if !row.shouldKeepSelection {
       tableView.deselectRow(at: indexPath, animated: true)
     }
+    
   }
 
   // MARK: - IBAction

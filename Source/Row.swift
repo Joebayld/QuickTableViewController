@@ -39,16 +39,23 @@ public protocol Row {
   
   /// Generate the table cell for the given tableView
   func cell(forTableView tableView: UITableView) -> UITableViewCell?
+    
+  /// table options
+    var shouldKeepSelection: Bool { get}
+    var shouldHighlight: Bool { get }
 }
 
 extension Row {
   
-  func defaultCell(forTableView tableView: UITableView) -> UITableViewCell? {
+    public var shouldKeepSelection: Bool { return false }
+    public var shouldHighlight: Bool { return false }
+  
+  internal func defaultCell(forTableView tableView: UITableView) -> UITableViewCell? {
     let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier)
     return cell
   }
   
-  func postCellSetup(forCell cell: UITableViewCell?) {
+  internal func postCellSetup(forCell cell: UITableViewCell?) {
     cell?.textLabel?.text = title
     
     if let icon = (self as? IconEnabled)?.icon {

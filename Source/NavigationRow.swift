@@ -70,6 +70,15 @@ public struct NavigationRow: Row, Equatable, IconEnabled {
     return cell
   }
   
+  /// Indicates that row should keep selection upon press.
+  public var shouldKeepSelection: Bool {
+    return true
+  }
+  
+  /// Indicates that row should highlight.
+  public var shouldHighlight: Bool {
+    return action != nil
+  }
   
   ///
   public init(title: String, subtitle: Subtitle, icon: Icon? = nil, action: ((Row) -> Void)? = nil) {

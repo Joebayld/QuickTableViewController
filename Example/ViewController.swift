@@ -40,6 +40,12 @@ class ViewController: QuickTableViewController {
     let time = UIImage(named: "iconmonstr-time")!
 
     tableContents = [
+      Section(title: "Selectable Cells", rows: [
+        SelectableRow(title: "Selection A", subtitle: .none, action: weakify(self, type(of: self).selectRow), isSelected: true),
+        SelectableRow(title: "Selection B", subtitle: .none, action: weakify(self, type(of: self).selectRow), isSelected: true),
+        SelectableRow(title: "Selection C", subtitle: .none, action: weakify(self, type(of: self).selectRow), isSelected: true),
+        ]),
+      
       Section(title: "Switch", rows: [
         SwitchRow(title: "Setting 1", switchValue: true, icon: Icon(image: globe), action: weakify(self, type(of: self).printValue)),
         SwitchRow(title: "Setting 2", switchValue: false, icon: Icon(image: time), action: weakify(self, type(of: self).printValue))
@@ -64,7 +70,9 @@ class ViewController: QuickTableViewController {
 
       Section(title: nil, rows: [
         NavigationRow(title: "Empty section title", subtitle: .none)
-      ])
+      ]),
+
+      
     ]
   }
 
@@ -96,6 +104,15 @@ class ViewController: QuickTableViewController {
     navigationController?.pushViewController(controller, animated: true)
   }
 
+  private func selectRow(_ sender: Row) {
+    let alert = UIAlertController(title: "Selected Row", message: sender.title, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "OK", style: .cancel) { [unowned self] _ in
+      self.dismiss(animated: true, completion: nil)
+    })
+    present(alert, animated: true, completion: nil)
+    
+  }
+  
   private func printValue(_ sender: Row) {
     if let row = sender as? SwitchRow {
       print("\(row.title) = \(row.switchValue)")
