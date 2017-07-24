@@ -36,6 +36,31 @@ public protocol Row {
   var cellReuseIdentifier: String { get }
   /// A closure related to the action of the row.
   var action: ((Row) -> Void)? { get }
+  
+  /// Generate the table cell for the given tableView
+  func cell(forTableView tableView: UITableView) -> UITableViewCell?
+}
+
+extension Row {
+  
+  func defaultCell(forTableView tableView: UITableView) -> UITableViewCell? {
+    let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier)
+    return cell
+  }
+  
+  func postCellSetup(forCell cell: UITableViewCell?) {
+    cell?.textLabel?.text = title
+    
+    if let icon = (self as? IconEnabled)?.icon {
+      if let image = icon.image {
+        cell?.imageView?.image = image
+      }
+      if let image = icon.highlightedImage {
+        cell?.imageView?.highlightedImage = image
+      }
+    }
+  }
+  
 }
 
 

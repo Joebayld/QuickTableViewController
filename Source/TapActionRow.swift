@@ -41,6 +41,18 @@ public struct TapActionRow: Row, Equatable {
   /// A closure as the tap action when the row is selected.
   public var action: ((Row) -> Void)?
 
+  /// Create the cell to be used in the table view.
+  public func cell(forTableView tableView: UITableView) -> UITableViewCell? {
+    var cell = defaultCell(forTableView: tableView)
+    
+    cell = cell ?? TapActionCell(style: .default, reuseIdentifier: cellReuseIdentifier)
+
+    
+    postCellSetup(forCell: cell)
+    
+    return cell
+  }
+  
   ///
   public init(title: String, action: ((Row) -> Void)?) {
     self.title = title

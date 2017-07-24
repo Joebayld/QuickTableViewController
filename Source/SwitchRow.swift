@@ -51,6 +51,21 @@ public struct SwitchRow: Row, Equatable, IconEnabled {
   /// A closure that will be invoked when the switchValue is changed.
   public var action: ((Row) -> Void)?
 
+  /// Create the cell to be used in the table view.
+  public func cell(forTableView tableView: UITableView) -> UITableViewCell? {
+    var cell = defaultCell(forTableView: tableView)
+    
+    cell = cell ?? SwitchCell(style: .default, reuseIdentifier: cellReuseIdentifier)
+    cell?.textLabel?.text = title
+    
+    let switchControl = (cell as? SwitchCell)?.switchControl
+    switchControl?.isOn = switchValue
+    
+    postCellSetup(forCell: cell)
+    
+    return cell
+  }
+  
   ///
   public init(title: String, switchValue: Bool, icon: Icon? = nil, action: ((Row) -> Void)?) {
     self.title = title

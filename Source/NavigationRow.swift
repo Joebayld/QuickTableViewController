@@ -46,6 +46,31 @@ public struct NavigationRow: Row, Equatable, IconEnabled {
   /// A closure related to the navigation when the row is selected.
   public var action: ((Row) -> Void)?
 
+  /// Create the cell to be used in the table view.
+  public func cell(forTableView tableView: UITableView) -> UITableViewCell? {
+    var cell = defaultCell(forTableView: tableView)
+    
+    if let subtitle = subtitle {
+      switch subtitle {
+      case .none:
+        cell = cell ?? UITableViewCell(style: .default, reuseIdentifier: subtitle.style)
+      case .belowTitle:
+        cell = cell ?? UITableViewCell(style: .subtitle, reuseIdentifier: subtitle.style)
+      case .rightAligned:
+        cell = cell ?? UITableViewCell(style: .value1, reuseIdentifier: subtitle.style)
+      case .leftAligned:
+        cell = cell ?? UITableViewCell(style: .value2, reuseIdentifier: subtitle.style)
+      }
+      cell?.detailTextLabel?.text = subtitle.text
+    }
+    cell?.accessoryType = (action == nil) ? .none : .disclosureIndicator
+    
+    postCellSetup(forCell: cell)
+
+    return cell
+  }
+  
+  
   ///
   public init(title: String, subtitle: Subtitle, icon: Icon? = nil, action: ((Row) -> Void)? = nil) {
     self.title = title

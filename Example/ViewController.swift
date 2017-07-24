@@ -26,7 +26,6 @@
 
 import UIKit
 import QuickTableViewController
-import Weakify
 
 class ViewController: QuickTableViewController {
 

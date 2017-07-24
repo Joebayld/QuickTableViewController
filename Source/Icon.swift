@@ -38,12 +38,12 @@ public struct Icon: Equatable {
 
   /// The image of the normal state.
   public var image: UIImage? {
-    return _image ?? UIImage(named: imageName ?? "")
+    return _image ?? ( imageName != nil ? UIImage(named: imageName!) : nil )
   }
 
   /// The image of the highlighted state.
   public var highlightedImage: UIImage? {
-    return _highlightedImage ?? UIImage(named: highlightedImageName)
+    return _highlightedImage ?? ( highlightedImageName != nil ? UIImage(named: highlightedImageName!) : nil )
   }
 
   // swiftlint:disable variable_name
@@ -52,11 +52,11 @@ public struct Icon: Equatable {
   // swiftlint:eable variable_name
 
   public private(set) var imageName: String?
-  public var highlightedImageName: String {
+  public var highlightedImageName: String? {
     if let name = imageName {
       return name + "-highlighted"
     } else {
-      return ""
+      return nil
     }
   }
 
